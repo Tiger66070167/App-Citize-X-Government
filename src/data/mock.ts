@@ -14,19 +14,9 @@ export const communities = [
   "ชุมชนตลาดเก่าอ่อนนุช",
 ];
 
-export const dumpIssueTypes = [
-  "ขยะล้น",
-  "มีกลิ่น",
-  "ต้องเพิ่มรอบเก็บ",
-  "ต้องจัดระเบียบพื้นที่",
-];
+export const dumpIssueTypes = ["ขยะล้น", "มีกลิ่น", "ต้องเพิ่มรอบเก็บ", "ต้องจัดระเบียบพื้นที่"];
 
-export const offenceTypes = [
-  "ทิ้งขยะไม่เป็นที่",
-  "เทขยะไม่ถูกสุขาภิบาล",
-  "ทิ้งก้นบุหรี่",
-  "อื่นๆ",
-];
+export const offenceTypes = ["ทิ้งขยะไม่เป็นที่", "เทขยะไม่ถูกสุขาภิบาล", "ทิ้งก้นบุหรี่", "อื่นๆ"];
 
 export type TrackCase = {
   id: string;

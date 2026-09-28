@@ -92,13 +92,7 @@ export function BottomNav() {
   );
 }
 
-export function Screen({
-  header,
-  children,
-}: {
-  header: ReactNode;
-  children: ReactNode;
-}) {
+export function Screen({ header, children }: { header: ReactNode; children: ReactNode }) {
   return (
     <PhoneFrame>
       {header}
@@ -108,13 +102,7 @@ export function Screen({
   );
 }
 
-export function Card({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <div className={`rounded-2xl border border-border bg-card p-4 shadow-sm ${className}`}>
       {children}

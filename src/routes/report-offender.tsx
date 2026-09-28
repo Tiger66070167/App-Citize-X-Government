@@ -155,9 +155,7 @@ function ReportOffender() {
 
         <div className="flex items-start gap-3 rounded-xl bg-accent/70 p-3 text-[12px] text-secondary-foreground">
           <Gift className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-          <p>
-            หากมีการยืนยันการกระทำผิด คุณจะได้รับคะแนนและรางวัลตอบแทนจากการช่วยดูแลสังคม
-          </p>
+          <p>หากมีการยืนยันการกระทำผิด คุณจะได้รับคะแนนและรางวัลตอบแทนจากการช่วยดูแลสังคม</p>
         </div>
       </Card>
 

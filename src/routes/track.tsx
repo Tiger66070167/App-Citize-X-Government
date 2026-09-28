@@ -37,9 +37,7 @@ function Track() {
             key={label}
             onClick={() => setMineOnly(value)}
             className={`rounded-lg py-2 text-[13px] font-bold transition-colors ${
-              mineOnly === value
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground"
+              mineOnly === value ? "bg-primary text-primary-foreground" : "text-muted-foreground"
             }`}
           >
             {label}

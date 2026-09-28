@@ -114,9 +114,7 @@ function ReportDump() {
                 >
                   <span
                     className={`grid h-4 w-4 shrink-0 place-items-center rounded border text-[10px] ${
-                      active
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-input"
+                      active ? "border-primary bg-primary text-primary-foreground" : "border-input"
                     }`}
                   >
                     {active ? "✓" : ""}

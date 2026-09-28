@@ -6,7 +6,7 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { nitro } from "nitro/vite";
 
 export default defineConfig(({ command }) => ({
-  server: { host: "::", port: 8080 },
+  server: { host: "localhost", port: 8080 },
   resolve: {
     dedupe: [
       "react",

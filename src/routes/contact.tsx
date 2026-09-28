@@ -40,7 +40,11 @@ const extras = [
     detail: "หากคุณได้รับการคุกคาม ไม่ปลอดภัย",
     icon: AlertTriangle,
   },
-  { title: "ติดต่อเจ้าหน้าที่ที่เกี่ยวข้อง", detail: "ส่งเรื่องให้หน่วยงานที่รับผิดชอบ", icon: MessageCircle },
+  {
+    title: "ติดต่อเจ้าหน้าที่ที่เกี่ยวข้อง",
+    detail: "ส่งเรื่องให้หน่วยงานที่รับผิดชอบ",
+    icon: MessageCircle,
+  },
 ];
 
 function Contact() {

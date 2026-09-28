@@ -51,9 +51,7 @@ function SocialCredit() {
             <div>
               <Award className="mx-auto h-9 w-9 text-primary" />
               <p className="text-sm font-bold text-primary">Social Credit</p>
-              <p className="text-4xl font-extrabold text-foreground">
-                {credit.toLocaleString()}
-              </p>
+              <p className="text-4xl font-extrabold text-foreground">{credit.toLocaleString()}</p>
               <p className="text-[12px] text-muted-foreground">คะแนน</p>
             </div>
           </div>
@@ -81,7 +79,13 @@ function SocialCredit() {
         <div className="grid grid-cols-2 gap-3">
           {levels.map((l) => (
             <Card key={l.name} className="space-y-1 bg-accent/40">
-              <span className="text-primary">{l.name === "พลเมืองดี" ? <Leaf className="h-5 w-5" /> : <Award className="h-5 w-5" />}</span>
+              <span className="text-primary">
+                {l.name === "พลเมืองดี" ? (
+                  <Leaf className="h-5 w-5" />
+                ) : (
+                  <Award className="h-5 w-5" />
+                )}
+              </span>
               <p className="truncate text-[12px] font-bold text-foreground">{l.name}</p>
               <p className="text-[10px] text-muted-foreground">{l.detail}</p>
             </Card>
@@ -94,7 +98,15 @@ function SocialCredit() {
         <div className="grid grid-cols-3 gap-2">
           {rewards.map((r) => (
             <Card key={r.title} className="space-y-1 p-3 text-center">
-              <span className="mx-auto grid h-8 w-8 place-items-center rounded-full bg-accent text-primary">{r.icon === "%" ? <Percent className="h-4 w-4" /> : r.icon === "💙" ? <HeartHandshake className="h-4 w-4" /> : <Gift className="h-4 w-4" />}</span>
+              <span className="mx-auto grid h-8 w-8 place-items-center rounded-full bg-accent text-primary">
+                {r.icon === "%" ? (
+                  <Percent className="h-4 w-4" />
+                ) : r.icon === "💙" ? (
+                  <HeartHandshake className="h-4 w-4" />
+                ) : (
+                  <Gift className="h-4 w-4" />
+                )}
+              </span>
               <p className="truncate text-[11px] font-bold text-foreground">{r.title}</p>
               <p className="text-[9px] text-muted-foreground">{r.detail}</p>
               <button
