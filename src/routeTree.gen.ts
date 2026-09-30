@@ -11,10 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ReportRouteImport } from './routes/report'
 import { Route as ReportDumpRouteImport } from './routes/report-dump'
 import { Route as ReportOffenderRouteImport } from './routes/report-offender'
 import { Route as SocialCreditRouteImport } from './routes/social-credit'
 import { Route as TrackRouteImport } from './routes/track'
+import { Route as NewsIndexRouteImport } from './routes/news.index'
+import { Route as NewsIdRouteImport } from './routes/news.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,6 +29,21 @@ const IndexRoute = IndexRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportDumpRoute = ReportDumpRouteImport.update({
@@ -46,66 +66,111 @@ const TrackRoute = TrackRouteImport.update({
   path: '/track',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsIndexRoute = NewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsIdRoute = NewsIdRouteImport.update({
+  id: '/news/$id',
+  path: '/news/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/report': typeof ReportRoute
   '/report-dump': typeof ReportDumpRoute
   '/report-offender': typeof ReportOffenderRoute
   '/social-credit': typeof SocialCreditRoute
   '/track': typeof TrackRoute
+  '/news/$id': typeof NewsIdRoute
+  '/news/': typeof NewsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/report': typeof ReportRoute
   '/report-dump': typeof ReportDumpRoute
   '/report-offender': typeof ReportOffenderRoute
   '/social-credit': typeof SocialCreditRoute
   '/track': typeof TrackRoute
+  '/news/$id': typeof NewsIdRoute
+  '/news': typeof NewsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
+  '/report': typeof ReportRoute
   '/report-dump': typeof ReportDumpRoute
   '/report-offender': typeof ReportOffenderRoute
   '/social-credit': typeof SocialCreditRoute
   '/track': typeof TrackRoute
+  '/news/$id': typeof NewsIdRoute
+  '/news/': typeof NewsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/contact'
+    | '/map'
+    | '/profile'
+    | '/report'
     | '/report-dump'
     | '/report-offender'
     | '/social-credit'
     | '/track'
+    | '/news/$id'
+    | '/news/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/contact'
+    | '/map'
+    | '/profile'
+    | '/report'
     | '/report-dump'
     | '/report-offender'
     | '/social-credit'
     | '/track'
+    | '/news/$id'
+    | '/news'
   id:
     | '__root__'
     | '/'
     | '/contact'
+    | '/map'
+    | '/profile'
+    | '/report'
     | '/report-dump'
     | '/report-offender'
     | '/social-credit'
     | '/track'
+    | '/news/$id'
+    | '/news/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  MapRoute: typeof MapRoute
+  ProfileRoute: typeof ProfileRoute
+  ReportRoute: typeof ReportRoute
   ReportDumpRoute: typeof ReportDumpRoute
   ReportOffenderRoute: typeof ReportOffenderRoute
   SocialCreditRoute: typeof SocialCreditRoute
   TrackRoute: typeof TrackRoute
+  NewsIdRoute: typeof NewsIdRoute
+  NewsIndexRoute: typeof NewsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +187,27 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/report-dump': {
@@ -152,16 +238,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/': {
+      id: '/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof NewsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news/$id': {
+      id: '/news/$id'
+      path: '/news/$id'
+      fullPath: '/news/$id'
+      preLoaderRoute: typeof NewsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  MapRoute: MapRoute,
+  ProfileRoute: ProfileRoute,
+  ReportRoute: ReportRoute,
   ReportDumpRoute: ReportDumpRoute,
   ReportOffenderRoute: ReportOffenderRoute,
   SocialCreditRoute: SocialCreditRoute,
   TrackRoute: TrackRoute,
+  NewsIdRoute: NewsIdRoute,
+  NewsIndexRoute: NewsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

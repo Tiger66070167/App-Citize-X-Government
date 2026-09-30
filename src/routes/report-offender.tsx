@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Bell, Calendar, Clock, Gift, MapPin, Play, Send, Video, X } from "lucide-react";
-import { Card, Field, PageHeader, Screen, inputClass } from "@/components/app-shell";
-import { offenceTypes } from "@/data/mock";
+import { Bell, Gift, Play, Send, Video, X } from "lucide-react";
+import { Card, Field, PageHeader, Screen } from "@/components/app-shell";
+import { DatePicker, LocationPicker, TimePicker } from "@/components/report-inputs";
+import { useNowDefaults } from "@/lib/report-helpers";
+import { offenceTypes, type MapPoint } from "@/data/mock";
 import clip from "@/assets/offender-clip.jpg";
 
 export const Route = createFileRoute("/report-offender")({
@@ -29,6 +31,8 @@ function ReportOffender() {
   const [media, setMedia] = useState(true);
   const [anonymous, setAnonymous] = useState(true);
   const [types, setTypes] = useState<string[]>(["ทิ้งขยะไม่เป็นที่"]);
+  const [location, setLocation] = useState<MapPoint>();
+  const { date, setDate, time, setTime } = useNowDefaults();
 
   const toggle = (name: string) =>
     setTypes((prev) => (prev.includes(name) ? prev.filter((i) => i !== name) : [...prev, name]));
@@ -76,25 +80,16 @@ function ReportOffender() {
           )}
         </div>
 
-        <Field label="สถานที่" required>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-3 h-4 w-4 text-primary" />
-            <input className={`${inputClass} pl-9`} defaultValue="ถนนสุขุมวิท ใกล้ BTS อ่อนนุช" />
-          </div>
+        <Field label="สถานที่" required hint="(GPS หรือแตะบนแผนที่)" as="div">
+          <LocationPicker value={location} onChange={setLocation} />
         </Field>
 
         <div className="grid grid-cols-2 gap-3">
-          <Field label="วันที่" required>
-            <div className="relative">
-              <Calendar className="absolute left-3 top-3 h-4 w-4 text-primary" />
-              <input className={`${inputClass} pl-9`} defaultValue="3 พ.ค. 2568" />
-            </div>
+          <Field label="วันที่" required as="div">
+            <DatePicker value={date} onChange={setDate} />
           </Field>
-          <Field label="เวลา" required>
-            <div className="relative">
-              <Clock className="absolute left-3 top-3 h-4 w-4 text-primary" />
-              <input className={`${inputClass} pl-9`} defaultValue="08:15" />
-            </div>
+          <Field label="เวลา" required as="div">
+            <TimePicker value={time} onChange={setTime} />
           </Field>
         </div>
 
@@ -161,6 +156,10 @@ function ReportOffender() {
 
       <button
         onClick={() => {
+          if (!location) {
+            toast.error("กรุณาระบุสถานที่");
+            return;
+          }
           toast.success("ส่งหลักฐานเรียบร้อย เจ้าหน้าที่จะตรวจสอบโดยเร็ว");
           navigate({ to: "/track" });
         }}

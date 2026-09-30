@@ -1,9 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Calendar, Camera, Clock, MapPin, Send, X } from "lucide-react";
-import { Card, Field, PageHeader, Screen, inputClass } from "@/components/app-shell";
-import { communities, dumpIssueTypes } from "@/data/mock";
+import { Camera, Send, X } from "lucide-react";
+import { Card, Field, PageHeader, Screen } from "@/components/app-shell";
+import {
+  CommunityPicker,
+  DatePicker,
+  LocationPicker,
+  TimePicker,
+} from "@/components/report-inputs";
+import { nearbyCommunities, useNowDefaults } from "@/lib/report-helpers";
+import { dumpIssueTypes, type MapPoint } from "@/data/mock";
 import dumpBefore from "@/assets/dump-before.jpg";
 
 export const Route = createFileRoute("/report-dump")({
@@ -25,6 +32,9 @@ function ReportDump() {
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(true);
   const [issues, setIssues] = useState<string[]>(["ขยะล้น", "มีกลิ่น"]);
+  const [location, setLocation] = useState<MapPoint>();
+  const [community, setCommunity] = useState("");
+  const { date, setDate, time, setTime } = useNowDefaults();
 
   const toggle = (name: string) =>
     setIssues((prev) => (prev.includes(name) ? prev.filter((i) => i !== name) : [...prev, name]));
@@ -65,33 +75,26 @@ function ReportDump() {
           )}
         </div>
 
-        <Field label="ชุมชน/พื้นที่" required>
-          <select className={inputClass} defaultValue={communities[0]}>
-            {communities.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
+        <Field label="สถานที่" required hint="(GPS หรือแตะบนแผนที่)" as="div">
+          <LocationPicker
+            value={location}
+            onChange={(p) => {
+              setLocation(p);
+              setCommunity(nearbyCommunities(p)[0]?.name ?? "");
+            }}
+          />
         </Field>
 
-        <Field label="สถานที่" required>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-3 h-4 w-4 text-primary" />
-            <input className={`${inputClass} pl-9`} defaultValue="ซอยประชาอุทิศ 12" />
-          </div>
+        <Field label="ชุมชน/พื้นที่" required hint="(ใกล้ตำแหน่งที่เลือก)" as="div">
+          <CommunityPicker location={location} value={community} onChange={setCommunity} />
         </Field>
 
         <div className="grid grid-cols-2 gap-3">
-          <Field label="วันที่" required>
-            <div className="relative">
-              <Calendar className="absolute left-3 top-3 h-4 w-4 text-primary" />
-              <input className={`${inputClass} pl-9`} defaultValue="3 พ.ค. 2568" />
-            </div>
+          <Field label="วันที่" required as="div">
+            <DatePicker value={date} onChange={setDate} />
           </Field>
-          <Field label="เวลา" required>
-            <div className="relative">
-              <Clock className="absolute left-3 top-3 h-4 w-4 text-primary" />
-              <input className={`${inputClass} pl-9`} defaultValue="10:24" />
-            </div>
+          <Field label="เวลา" required as="div">
+            <TimePicker value={time} onChange={setTime} />
           </Field>
         </div>
 
@@ -125,21 +128,14 @@ function ReportDump() {
             })}
           </div>
         </div>
-
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/60 p-3">
-          <div className="grid h-16 w-20 shrink-0 place-items-center rounded-lg bg-accent text-primary">
-            <MapPin className="h-6 w-6" />
-          </div>
-          <div className="min-w-0 text-[12px]">
-            <p className="font-semibold text-foreground">ตำแหน่งบนแผนที่</p>
-            <p className="text-muted-foreground">ซอยประชาอุทิศ 12 เขตดอนเมือง กรุงเทพมหานคร</p>
-            <button className="mt-1 font-semibold text-primary">แก้ไขตำแหน่ง</button>
-          </div>
-        </div>
       </Card>
 
       <button
         onClick={() => {
+          if (!location || !community) {
+            toast.error("กรุณาระบุสถานที่และชุมชน/พื้นที่");
+            return;
+          }
           toast.success("ส่งรายงานเรียบร้อย ขอบคุณที่ช่วยดูแลชุมชน");
           navigate({ to: "/track" });
         }}

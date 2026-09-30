@@ -16,13 +16,21 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageHeader({ title, action }: { title: string; action?: ReactNode }) {
+export function PageHeader({
+  title,
+  action,
+  backTo = "/",
+}: {
+  title: string;
+  action?: ReactNode;
+  backTo?: string;
+}) {
   const navigate = useNavigate();
   return (
     <header className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border-b border-border bg-background px-3 py-3">
       <button
         aria-label="ย้อนกลับ"
-        onClick={() => navigate({ to: "/" })}
+        onClick={() => navigate({ to: backTo })}
         className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-foreground transition-colors hover:bg-accent"
       >
         <ArrowLeft className="h-5 w-5" />
@@ -46,12 +54,21 @@ export function HomeHeader() {
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-2">
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-accent text-foreground">
+        <Link
+          to="/news"
+          aria-label="ข่าวสารและการแจ้งเตือน"
+          className="relative grid h-9 w-9 place-items-center rounded-full bg-accent text-foreground"
+        >
           <Bell className="h-4 w-4" />
-        </span>
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-primary/15 text-sm font-bold text-primary">
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-destructive" />
+        </Link>
+        <Link
+          to="/profile"
+          aria-label="โปรไฟล์"
+          className="grid h-9 w-9 place-items-center rounded-full bg-primary/15 text-sm font-bold text-primary"
+        >
           ม
-        </span>
+        </Link>
       </div>
     </header>
   );
@@ -59,10 +76,10 @@ export function HomeHeader() {
 
 const navItems = [
   { to: "/", label: "หน้าแรก", icon: Home },
-  { to: "/track", label: "แผนที่", icon: Map },
-  { to: "/report-dump", label: "แจ้งเรื่อง", icon: Plus, primary: true },
-  { to: "/social-credit", label: "ข่าวสาร", icon: Newspaper },
-  { to: "/contact", label: "โปรไฟล์", icon: User },
+  { to: "/map", label: "แผนที่", icon: Map },
+  { to: "/report", label: "แจ้งเรื่อง", icon: Plus, primary: true },
+  { to: "/news", label: "ข่าวสาร", icon: Newspaper },
+  { to: "/profile", label: "โปรไฟล์", icon: User },
 ] as const;
 
 export function BottomNav() {
@@ -113,19 +130,25 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
 export function Field({
   label,
   required,
+  hint,
+  as: Tag = "label",
   children,
 }: {
   label: string;
   required?: boolean;
+  hint?: string;
+  /** Use "div" when children contain their own buttons, so taps aren't forwarded by <label>. */
+  as?: "label" | "div";
   children: ReactNode;
 }) {
   return (
-    <label className="block space-y-1.5">
-      <span className="text-[13px] font-semibold text-foreground">
+    <Tag className="block space-y-1.5">
+      <span className="block text-[13px] font-semibold text-foreground">
         {label} {required && <span className="text-destructive">*</span>}
+        {hint && <span className="font-normal text-muted-foreground"> {hint}</span>}
       </span>
       {children}
-    </label>
+    </Tag>
   );
 }
 
